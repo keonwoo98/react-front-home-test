@@ -18,6 +18,7 @@ import { tagList } from "./Tags/TagData";
 export default function App() {
   const [filter, setFilter] = useState<string>("all");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [resetTrigger, setResetTrigger] = useState<boolean>(false);
 
   const filterButtons = [
     { label: "Tous", type: "all" },
@@ -36,11 +37,13 @@ export default function App() {
       prev.includes(tagId) ? prev.filter(tag => tag !== tagId) : [...prev, tagId]
     );
     setFilter("all");
+    setResetTrigger(prev => !prev);
   };
 
   const handleFilterButtonClick = (filterType: string) => {
     setFilter(filterType);
     setSelectedTags([]);
+    setResetTrigger(prev => !prev);
   };
 
   const getFilteredRecipes = () => {
@@ -87,7 +90,7 @@ export default function App() {
           </button>
         ))}
       </div>
-      <Recipes recipes={filteredRecipes} />
+      <Recipes recipes={filteredRecipes} resetTrigger={resetTrigger} />
     </div>
   );
 }
