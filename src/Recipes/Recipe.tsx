@@ -26,24 +26,27 @@ export const Recipe = ({ recipe, resetTrigger }: RecipeProps) => {
         padding: "10px",
         boxShadow: "5px 5px 7px 2px rgba(0,0,0,0.76)",
         marginTop: "20px",
+        minWidth: "800px",
+        width: "100%",
+        boxSizing: "border-box",
+        backgroundColor: "white",
       }}
     >
       <div
         style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-evenly",
-          height: "200px",
-          width: "70%",
+          flex: "0 0 50%",
+          height: "350px",
           backgroundImage: `url(${recipe.imageURL})`,
           backgroundSize: "cover",
+          backgroundPosition: "center",
         }}
       ></div>
       <div
         style={{
+          flex: "1 1 50%",
           padding: "10px",
           backgroundColor: "lightblue",
-          width: "100%",
+          boxSizing: "border-box",
         }}
       >
         <h2>Nom de la recette: {recipe.nom}</h2>
@@ -69,6 +72,7 @@ export const Recipe = ({ recipe, resetTrigger }: RecipeProps) => {
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-start",
+            boxSizing: "border-box",
           }}
         >
           Ingrédients:
@@ -88,6 +92,7 @@ export const Recipe = ({ recipe, resetTrigger }: RecipeProps) => {
             flexDirection: "column",
             alignContent: "flex-start",
             alignItems: "flex-start",
+            boxSizing: "border-box",
           }}
         >
           <div
@@ -95,6 +100,7 @@ export const Recipe = ({ recipe, resetTrigger }: RecipeProps) => {
               padding: "10px",
               display: "flex",
               flexDirection: "column",
+              boxSizing: "border-box",
             }}
           >
             Etapes de la recette:
