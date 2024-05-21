@@ -1,4 +1,3 @@
-import Ingredient from "./Ingredient";
 import { IngredientWithQuantityType } from "./IngredientWithQuantityType";
 import { IngredientWithQuantity } from "./IngredientWithQuantity";
 
