@@ -37,17 +37,25 @@ const App = () => {
     setSelectedTags(prev =>
       prev.includes(tagId) ? prev.filter(tag => tag !== tagId) : [...prev, tagId]
     );
+    setFilter("all");
+    setSearchTerm("");
     setResetTrigger(prev => !prev);
   };
 
   const handleFilterButtonClick = (filterType: string) => {
     setFilter(filterType);
     setSelectedTags([]);
+    setSearchTerm("");
     setResetTrigger(prev => !prev);
   };
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
+    if (event.target.value) {
+      setFilter("all");
+      setSelectedTags([]);
+      setResetTrigger(prev => !prev);
+    }
   };
 
   const handleSearchReset = () => {
@@ -120,7 +128,17 @@ const App = () => {
       <TagList tags={tagList} selectedTags={selectedTags} setFilter={handleTagToggle} />
       <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap" }}>
         {filterButtons.map(button => (
-          <button key={button.type} onClick={() => handleFilterButtonClick(button.type)} style={{ margin: "5px" }}>
+          <button
+            key={button.type}
+            onClick={() => handleFilterButtonClick(button.type)}
+            style={{
+              margin: "5px",
+              backgroundColor: filter === button.type ? "#DDEEFF" : "",
+              border: filter === button.type ? "1px solid #000" : "1px solid #ccc",
+              borderRadius: "5px",
+              padding: "10px",
+            }}
+          >
             {button.label}
           </button>
         ))}
