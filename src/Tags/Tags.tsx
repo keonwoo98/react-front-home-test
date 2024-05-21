@@ -4,7 +4,7 @@ import { TagType } from "./TagType";
 interface TagsProps {
   tags: TagType[];
   selectedTags: string[];
-  setFilter: (tagId: string) => void;
+  setFilter?: (tagId: string) => void;
   isClickable?: boolean;
 }
 
