@@ -1,12 +1,22 @@
+import { useEffect, useState } from "react";
 import { RecipeType } from "./RecipeType";
 import Steps from "../Steps/Steps";
 import IngredientsWithQuantity from "../Ingredients/IngredientsWithQuantity";
-import { useState } from "react";
 import { Tags } from "../Tags/Tags";
 
-export const Recipe = ({ recipe }: { recipe: RecipeType }) => {
-  const [showSteps, setShowSteps] = useState<Boolean>(false);
+interface RecipeProps {
+  recipe: RecipeType;
+  resetTrigger: boolean;
+}
+
+export const Recipe = ({ recipe, resetTrigger }: RecipeProps) => {
+  const [showSteps, setShowSteps] = useState<boolean>(false);
   const [showIngredients, setShowIngredients] = useState<boolean>(false);
+
+  useEffect(() => {
+    setShowSteps(false);
+    setShowIngredients(false);
+  }, [resetTrigger]);
 
   return (
     <div
@@ -50,7 +60,7 @@ export const Recipe = ({ recipe }: { recipe: RecipeType }) => {
             justifyContent: "center",
           }}
         >
-          <Tags tags={recipe.tags} selectedTags={[]} setFilter={() => { }} isClickable={false} />
+          <Tags tags={recipe.tags} selectedTags={[]} isClickable={false} />
         </div>
         <div
           style={{
