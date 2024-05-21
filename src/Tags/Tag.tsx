@@ -1,10 +1,18 @@
-import { useState } from "react";
 import { TagType } from "./TagType";
 
-export const Tag = ({ tag }: { tag: TagType }) => {
-  const [selectedTag, setSelectedTag] = useState("");
+interface TagProps {
+  tag: TagType;
+  selectedTags: string[];
+  setFilter?: (tagId: string) => void;
+  isClickable?: boolean;
+}
+
+export const Tag = ({ tag, selectedTags, setFilter, isClickable = true }: TagProps): JSX.Element => {
+  const isSelected = selectedTags.includes(tag.id);
+
   return (
     <div
+      onClick={isClickable ? () => setFilter?.(tag.id) : undefined}
       style={{
         margin: "10px",
         padding: "5px",
@@ -12,7 +20,8 @@ export const Tag = ({ tag }: { tag: TagType }) => {
         display: "flex",
         flexDirection: "row",
         justifyContent: "center",
-        backgroundColor: `${tag.color}`
+        backgroundColor: isSelected ? '#DDEEFF' : tag.color,
+        cursor: isClickable ? 'pointer' : 'default'
       }}
     >
       {tag.name.fr}
