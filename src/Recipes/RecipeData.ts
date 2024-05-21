@@ -14,12 +14,25 @@ import {
   salad,
   cucumber,
   feta,
+  lobster,
+  rice,
+  whiteWine,
+  chickenBroth,
+  parmesan,
+  onion,
+  garlic,
+  oliveOil,
+  salt,
+  pepper,
+  parsley,
 } from "../Ingredients/IngredientData";
 
 import {
   stepsFondantChocolat,
   stepsPavlova,
   stepsTarteAuxPoires,
+  stepswaldorfSalad,
+  stepsLobsterRisotto,
 } from "../Steps/StepData";
 
 import {
@@ -29,6 +42,8 @@ import {
   summer,
   vegan,
   winter,
+  seafood,
+  elegant,
 } from "../Tags/TagData";
 
 const pavlova: RecipeType = {
@@ -52,7 +67,7 @@ const fondantChocolat: RecipeType = {
   description:
     "Le fondant au chocolat est un gâteau au chocolat qui fond en bouche",
   imageURL:
-    "https://www.guydemarle.com/rails/active_storage/representations/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBc0ZvIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--333bff76e254e1934153f809f2d9cc2b5967da52/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCam9VWTI5dFltbHVaVjl2Y0hScGIyNXpld2c2QzNKbGMybDZaVWtpRFRZd01IZzJNREJlQmpvR1JWUTZER2R5WVhacGRIbEpJZ3REWlc1MFpYSUdPd2RVT2dsamNtOXdTU0lRTmpBd2VEWXdNQ3N3S3pBR093ZFUiLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--929a1958a8630156464b089800ca739f1b4570de/fondant-au-chocolat.jpg",
+    "https://assets.tmecosys.com/image/upload/t_web767x639/img/recipe/ras/Assets/099F9C9F-D0A5-44DD-9652-3577F0699632/Derivates/8B542DBC-F14E-4022-AF91-1344695F5493.jpg",
   ingredients: [chocolate, egg, flour, butter, sugar],
   etapes: stepsFondantChocolat,
   ingredientsWithQuantity: [
@@ -61,7 +76,7 @@ const fondantChocolat: RecipeType = {
     { ingredient: chocolate, quantity: 200, unit: "g" },
     { ingredient: butter, quantity: 150, unit: "g" },
   ],
-  tags: [dessert, winter],
+  tags: [dessert, winter, elegant],
 };
 
 const pearPie: RecipeType = {
@@ -87,6 +102,7 @@ const waldorfSalad: RecipeType = {
   imageURL:
     "https://assets.afcdn.com/recipe/20190704/94666_w420h420c1cx2689cy1920cxb5378cyb3840.webp",
   ingredients: [salad, cucumber, feta],
+  etapes: stepswaldorfSalad,
   ingredientsWithQuantity: [
     { ingredient: salad, quantity: 1 },
     {
@@ -98,11 +114,36 @@ const waldorfSalad: RecipeType = {
   tags: [appetizer, summer, vegan],
 };
 
+const lobsterRisotto: RecipeType = {
+  nom: "Risotto au Homard",
+  description: "Un risotto crémeux et élégant avec du homard frais et du fromage Parmesan",
+  imageURL: "https://www.seafoodnutrition.org/wp-content/uploads/2021/04/lobster-risotto-from-think-rice.jpg",
+  ingredients: [lobster, rice, cream, whiteWine, chickenBroth, parmesan, onion, garlic, butter, oliveOil, salt, pepper, parsley],
+  etapes: stepsLobsterRisotto,
+  ingredientsWithQuantity: [
+    { ingredient: lobster, quantity: 1, unit: " entier" },
+    { ingredient: rice, quantity: 200, unit: "g" },
+    { ingredient: cream, quantity: 50, unit: "ml" },
+    { ingredient: whiteWine, quantity: 150, unit: "ml" },
+    { ingredient: chickenBroth, quantity: 1, unit: "L" },
+    { ingredient: parmesan, quantity: 50, unit: "g" },
+    { ingredient: onion, quantity: 1, unit: " unit" },
+    { ingredient: garlic, quantity: 2, unit: " cloves" },
+    { ingredient: butter, quantity: 50, unit: "g" },
+    { ingredient: oliveOil, quantity: 2, unit: " tsp" },
+    { ingredient: salt, quantity: 1, unit: " tsp" },
+    { ingredient: pepper, quantity: 1, unit: " tsp" },
+    { ingredient: parsley, quantity: 10, unit: "g" },
+  ],
+  tags: [seafood, elegant],
+};
+
 export const allRecipes: ListOfRecipes = [
   pavlova,
   fondantChocolat,
   pearPie,
   waldorfSalad,
+  lobsterRisotto,
 ];
 
 export const summerRecipes = allRecipes.filter((recipe) => {
