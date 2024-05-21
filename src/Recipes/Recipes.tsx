@@ -1,7 +1,12 @@
-import { ListOfRecipes } from "./RecipeType";
+import { RecipeType } from "./RecipeType";
 import Recipe from "./Recipe";
 
-export const Recipes = ({ recipes }: { recipes: ListOfRecipes }) => {
+interface RecipesProps {
+  recipes: RecipeType[];
+  resetTrigger: boolean;
+}
+
+const Recipes = ({ recipes, resetTrigger }: RecipesProps): JSX.Element => {
   return (
     <div
       style={{
@@ -19,8 +24,8 @@ export const Recipes = ({ recipes }: { recipes: ListOfRecipes }) => {
           maxWidth: "800px",
         }}
       >
-        {recipes.map((obj) => (
-          <Recipe recipe={obj} />
+        {recipes.map(recipe => (
+          <Recipe key={recipe.nom} recipe={recipe} resetTrigger={resetTrigger} />
         ))}
       </div>
     </div>
