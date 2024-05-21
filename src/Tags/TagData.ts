@@ -34,7 +34,7 @@ export const dessert: TagType = {
   id: "dessert",
   name: {
     fr: "dessert",
-    en: "appetizer",
+    en: "dessert",
   },
   type: "plateType",
   color: "#e320bd",
@@ -60,6 +60,26 @@ export const winter: TagType = {
   color: "blue",
 };
 
+export const seafood: TagType = {
+  id: "seafood",
+  name: {
+    fr: "fruits de mer",
+    en: "seafood",
+  },
+  type: "category",
+  color: "red",
+};
+
+export const elegant: TagType = {
+  id: "elegant",
+  name: {
+    fr: "élégant",
+    en: "elegant",
+  },
+  type: "quality",
+  color: "gold",
+};
+
 export const tagList: TagType[] = [
   summer,
   winter,
@@ -67,4 +87,6 @@ export const tagList: TagType[] = [
   appetizer,
   autumn,
   vegan,
+  seafood,
+  elegant,
 ];
