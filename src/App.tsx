@@ -17,31 +17,77 @@ import { tagList } from "./Tags/TagData";
 
 export default function App() {
   const [filter, setFilter] = useState<string>("all");
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+
+  const filterButtons = [
+    { label: "Tous", type: "all" },
+    { label: "Chocolat", type: "chocolate" },
+    { label: "Sucre", type: "sugar" },
+    { label: "Été", type: "summer" },
+    { label: "Dessert", type: "dessert" },
+    { label: "Dessert Chocolat", type: "chocolate dessert" },
+    { label: "Sans Oeufs", type: "eggs free" },
+    { label: "Automne", type: "autumn" },
+    { label: "Vegan", type: "vegan" },
+  ];
+
+  const handleTagToggle = (tagId: string) => {
+    setSelectedTags(prev =>
+      prev.includes(tagId) ? prev.filter(tag => tag !== tagId) : [...prev, tagId]
+    );
+    setFilter("all");
+  };
+
+  const handleFilterButtonClick = (filterType: string) => {
+    setFilter(filterType);
+    setSelectedTags([]);
+  };
+
+  const getFilteredRecipes = () => {
+    if (selectedTags.length > 0) {
+      return allRecipes.filter(recipe =>
+        selectedTags.every(tagId =>
+          recipe.tags.some(tag => tag.id === tagId)
+        )
+      );
+    }
+
+    switch (filter) {
+      case "chocolate":
+        return chocolateRecipes;
+      case "sugar":
+        return sugarRecipes;
+      case "summer":
+        return summerRecipes;
+      case "dessert":
+        return dessertRecipes;
+      case "chocolate dessert":
+        return chocolateDessertRecipes;
+      case "eggs free":
+        return noEggsRecipes;
+      case "autumn":
+        return autumnRecipes;
+      case "vegan":
+        return veganRecipes;
+      default:
+        return allRecipes;
+    }
+  };
+
+  const filteredRecipes = getFilteredRecipes();
+
   return (
     <div className="App">
-      Liste des recettes
-      <TagList tags={tagList} />
-      <button onClick={() => setFilter("chocolate")}>Chocolat</button>
-      <button onClick={() => setFilter("sugar")}>Sucre</button>
-      <button onClick={() => setFilter("summer")}>Eté</button>
-      <button onClick={() => setFilter("dessert")}>Dessert</button>
-      <button onClick={() => setFilter("chocolate dessert")}>
-        dessert chocolat
-      </button>
-      <button onClick={() => setFilter("eggs free")}>Sans Oeufs</button>
-      <button onClick={() => setFilter("autumn")}> Autumn</button>
-      <button onClick={() => setFilter("vegan")}> Vegan</button>
-      {filter === "all" && <Recipes recipes={allRecipes} />}
-      {filter === "sugar" && <Recipes recipes={sugarRecipes} />}
-      {filter === "summer" && <Recipes recipes={summerRecipes} />}
-      {filter === "dessert" && <Recipes recipes={dessertRecipes} />}
-      {filter === "chocolate dessert" && (
-        <Recipes recipes={chocolateDessertRecipes} />
-      )}
-      {filter === "eggs free" && <Recipes recipes={noEggsRecipes} />}
-      {filter === "chocolate" && <Recipes recipes={chocolateRecipes} />}
-      {filter === "autumn" && <Recipes recipes={autumnRecipes} />}
-      {filter === "vegan" && <Recipes recipes={veganRecipes} />}
+      <h1>Liste des recettes</h1>
+      <TagList tags={tagList} selectedTags={selectedTags} setFilter={handleTagToggle} />
+      <div>
+        {filterButtons.map(button => (
+          <button key={button.type} onClick={() => handleFilterButtonClick(button.type)}>
+            {button.label}
+          </button>
+        ))}
+      </div>
+      <Recipes recipes={filteredRecipes} />
     </div>
   );
 }
