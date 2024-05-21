@@ -15,28 +15,28 @@ import {
 import { TagList } from "./Tagfilter/ListeDesTags";
 import { tagList } from "./Tags/TagData";
 
-export default function App() {
+const filterButtons = [
+  { label: "Tous", type: "all" },
+  { label: "Chocolat", type: "chocolate" },
+  { label: "Sucre", type: "sugar" },
+  { label: "Été", type: "summer" },
+  { label: "Dessert", type: "dessert" },
+  { label: "Dessert Chocolat", type: "chocolate dessert" },
+  { label: "Sans Oeufs", type: "eggs free" },
+  { label: "Automne", type: "autumn" },
+  { label: "Vegan", type: "vegan" },
+];
+
+const App = () => {
   const [filter, setFilter] = useState<string>("all");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const [resetTrigger, setResetTrigger] = useState<boolean>(false);
-
-  const filterButtons = [
-    { label: "Tous", type: "all" },
-    { label: "Chocolat", type: "chocolate" },
-    { label: "Sucre", type: "sugar" },
-    { label: "Été", type: "summer" },
-    { label: "Dessert", type: "dessert" },
-    { label: "Dessert Chocolat", type: "chocolate dessert" },
-    { label: "Sans Oeufs", type: "eggs free" },
-    { label: "Automne", type: "autumn" },
-    { label: "Vegan", type: "vegan" },
-  ];
 
   const handleTagToggle = (tagId: string) => {
     setSelectedTags(prev =>
       prev.includes(tagId) ? prev.filter(tag => tag !== tagId) : [...prev, tagId]
     );
-    setFilter("all");
     setResetTrigger(prev => !prev);
   };
 
@@ -46,35 +46,58 @@ export default function App() {
     setResetTrigger(prev => !prev);
   };
 
-  const getFilteredRecipes = () => {
-    if (selectedTags.length > 0) {
-      return allRecipes.filter(recipe =>
-        selectedTags.every(tagId =>
-          recipe.tags.some(tag => tag.id === tagId)
-        )
-      );
-    }
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
 
+  const handleSearchReset = () => {
+    setSearchTerm("");
+  };
+
+  const applyTagFilter = (recipes: typeof allRecipes) => {
+    if (selectedTags.length === 0) return recipes;
+    return recipes.filter(recipe =>
+      selectedTags.every(tagId => recipe.tags.some(tag => tag.id === tagId))
+    );
+  };
+
+  const applyCategoryFilter = (recipes: typeof allRecipes) => {
     switch (filter) {
       case "chocolate":
-        return chocolateRecipes;
+        return recipes.filter(recipe => chocolateRecipes.includes(recipe));
       case "sugar":
-        return sugarRecipes;
+        return recipes.filter(recipe => sugarRecipes.includes(recipe));
       case "summer":
-        return summerRecipes;
+        return recipes.filter(recipe => summerRecipes.includes(recipe));
       case "dessert":
-        return dessertRecipes;
+        return recipes.filter(recipe => dessertRecipes.includes(recipe));
       case "chocolate dessert":
-        return chocolateDessertRecipes;
+        return recipes.filter(recipe => chocolateDessertRecipes.includes(recipe));
       case "eggs free":
-        return noEggsRecipes;
+        return recipes.filter(recipe => noEggsRecipes.includes(recipe));
       case "autumn":
-        return autumnRecipes;
+        return recipes.filter(recipe => autumnRecipes.includes(recipe));
       case "vegan":
-        return veganRecipes;
+        return recipes.filter(recipe => veganRecipes.includes(recipe));
       default:
-        return allRecipes;
+        return recipes;
     }
+  };
+
+  const applySearchFilter = (recipes: typeof allRecipes) => {
+    if (!searchTerm) return recipes;
+    return recipes.filter(recipe =>
+      recipe.nom.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      recipe.description.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  };
+
+  const getFilteredRecipes = () => {
+    let filteredRecipes = allRecipes;
+    filteredRecipes = applyTagFilter(filteredRecipes);
+    filteredRecipes = applyCategoryFilter(filteredRecipes);
+    filteredRecipes = applySearchFilter(filteredRecipes);
+    return filteredRecipes;
   };
 
   const filteredRecipes = getFilteredRecipes();
@@ -82,10 +105,22 @@ export default function App() {
   return (
     <div className="App">
       <h1>Liste des recettes</h1>
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginBottom: "20px" }}>
+        <input
+          type="text"
+          placeholder="Rechercher des recettes..."
+          value={searchTerm}
+          onChange={handleSearchChange}
+          style={{ padding: "10px", width: "200px", borderRadius: "5px", marginRight: "10px" }}
+        />
+        <button onClick={handleSearchReset} style={{ padding: "10px", borderRadius: "5px" }}>
+          Reset
+        </button>
+      </div>
       <TagList tags={tagList} selectedTags={selectedTags} setFilter={handleTagToggle} />
-      <div>
+      <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap" }}>
         {filterButtons.map(button => (
-          <button key={button.type} onClick={() => handleFilterButtonClick(button.type)}>
+          <button key={button.type} onClick={() => handleFilterButtonClick(button.type)} style={{ margin: "5px" }}>
             {button.label}
           </button>
         ))}
@@ -93,4 +128,6 @@ export default function App() {
       <Recipes recipes={filteredRecipes} resetTrigger={resetTrigger} />
     </div>
   );
-}
+};
+
+export default App;
